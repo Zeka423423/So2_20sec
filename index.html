@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standoff 2 - Статус оплаты</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-orange: linear-gradient(90deg, #ff9e3d 0%, #ff7a33 100%);
+            --bg-color: #050608;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #ffffff;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 65% 50%, rgba(34, 139, 34, 0.22) 0%, transparent 50%),
+                radial-gradient(circle at 35% 85%, rgba(34, 139, 34, 0.12) 0%, transparent 40%);
+            overflow-x: hidden;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 520px; 
+            text-align: center;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        /* АНИМАЦИЯ ПОЯВЛЕНИЯ */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .brand-logo-img {
+            width: 100%;
+            max-width: 280px; 
+            height: auto;
+            margin-bottom: 30px;
+            animation-delay: 0.2s;
+        }
+
+        .payment-card {
+            width: 100%;
+            max-width: 440px;
+            background: rgba(18, 22, 26, 0.25);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            border-radius: 32px;
+            padding: 50px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
+            animation-delay: 0.4s;
+        }
+
+        .success-icon-box {
+            width: 60px;
+            height: 60px;
+            background-color: #3cc368;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+
+        .success-icon-box svg {
+            width: 34px;
+            height: 34px;
+            fill: none;
+            stroke: #050608;
+            stroke-width: 4.5;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin: 0 0 35px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .label {
+            color: #7a828e;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .transaction-number {
+            font-size: 18px;
+            font-weight: 400;
+            color: #ffffff;
+            margin-bottom: 40px;
+            letter-spacing: 0.3px;
+            /* Убрал плавность перехода, чтобы обновление было резким */
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            margin: 25px 0;
+        }
+
+        .footer-info {
+            font-size: 16px;
+            color: #e1e1e1;
+            margin-bottom: 10px;
+        }
+
+        .btn-action {
+            position: relative;
+            background: linear-gradient(90deg, #ff9e3d 0%, #ff7a33 100%);
+            border: none;
+            border-radius: 18px;
+            color: white;
+            width: 100%;
+            padding: 22px 0; 
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            transform: scaleX(1.1); 
+            letter-spacing: 1px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 50px;
+            box-shadow: 0 15px 35px rgba(255, 76, 0, 0.25);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            animation-delay: 0.6s;
+        }
+
+        .btn-action:hover {
+            filter: brightness(1.1);
+            transform: scaleX(1.1) scaleY(1.03);
+        }
+
+        .legal-block {
+            font-size: 11px;
+            color: #5c646e;
+            line-height: 1.6;
+            margin-top: 25px;
+        }
+
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 480px) {
+            .content { padding: 20px; }
+            .payment-card { padding: 40px 20px; border-radius: 24px; }
+            h1 { font-size: 18px; }
+            .btn-action { transform: scaleX(1); font-size: 16px; margin-top: 40px; }
+            .btn-action:hover { transform: scaleY(1.03); }
+            .brand-logo-img { max-width: 220px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="content">
+    <img src="logo.png" alt="Standoff 2" class="brand-logo-img fade-in">
+
+    <div class="payment-card fade-in">
+        <div class="success-icon-box">
+            <svg viewBox="0 0 24 24">
+                <path d="M3.5 12.5L8.5 17.5L21 5" />
+            </svg>
+        </div>
+        
+        <h1>Оплата прошла успешно!</h1>
+        
+        <div class="label">Номер транзакции</div>
+        <div id="tid" class="transaction-number">загрузка...</div>
+        
+        <hr>
+        
+        <div class="footer-info">Мы отправили чек вам на почту</div>
+        
+        <div class="legal-block">
+            <a href="#" style="color: inherit; text-decoration: underline;">Публичная оферта</a> и <a href="#" style="color: inherit; text-decoration: underline;">Политика конфиденциальности</a>
+            <span style="opacity: 0.5; margin-top: 12px; display: block;">
+                This site is protected by reCAPTCHA Enterprise and the Google<br>
+                Privacy Policy and Terms of Service apply. v0.17.3.c763177d
+            </span>
+        </div>
+    </div>
+
+    <button class="btn-action fade-in" onclick="window.open('https://store.standoff2.com/ru-RU', '_blank')">
+        Вернуться в магазин
+    </button>
+</div>
+
+<script>
+    // Функция резкого обновления ID
+    function updateTid() {
+        const randomId = "ps_" + (Math.floor(Math.random() * 9000000000) + 1000000000);
+        document.getElementById('tid').innerText = randomId;
+    }
+
+    // Первый запуск при загрузке
+    updateTid();
+
+    // Авто-обновление каждые 20 секунд (20000 мс)
+    setInterval(updateTid, 20000);
+</script>
+
+</body>
+</html>
