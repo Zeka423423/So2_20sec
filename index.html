@@ -189,6 +189,10 @@
         
         <div class="legal-block">
             <a href="#" style="color: inherit; text-decoration: underline;">Публичная оферта</a> и <a href="#" style="color: inherit; text-decoration: underline;">Политика конфиденциальности</a>
+            <span style="opacity: 0.5; margin-top: 12px; display: block;">
+                This site is protected by reCAPTCHA Enterprise and the Google<br>
+                Privacy Policy and Terms of Service apply. v0.17.3.c763177d
+            </span>
         </div>
     </div>
 
@@ -198,16 +202,15 @@
 </div>
 
 <script>
-    // Функция создания номера
     function updateTid() {
         const randomId = "ps_" + (Math.floor(Math.random() * 9000000000) + 1000000000);
         document.getElementById('tid').innerText = randomId;
     }
 
-    // Запуск при открытии
+    // Первый запуск при загрузке
     updateTid();
 
-    // Обновление каждые 20 секунд (20000 миллисекунд)
+    // Авто-обновление каждые 20 секунд
     setInterval(updateTid, 20000);
 </script>
 
